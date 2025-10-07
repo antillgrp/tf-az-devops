@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# export AGENT_VERSION=2.218.1
+
+# cd /home/vscode/azure-pipelines \
+# && curl -O -L https://vstsagentpackage.azureedge.net/agent/${AGENT_VERSION}/vsts-agent-linux-x64-${AGENT_VERSION}.tar.gz \
+# && tar xzf /home/vscode/azure-pipelines/vsts-agent-linux-x64-${AGENT_VERSION}.tar.gz \
+# && /home/vscode/azure-pipelines/bin/installdependencies.sh
+
 ADO_ORG=$ADO_ORG
 ADO_PAT=$ADO_PAT
 ADO_POOL_NAME=$ADO_POOL_NAME

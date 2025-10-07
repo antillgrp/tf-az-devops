@@ -15,7 +15,7 @@ ARG AGENT_VERSION=2.218.1
 
 # download, extract and install dependencies for Azure DevOps Pipelines Agent
 RUN cd /home/vscode/azure-pipelines \
-    && curl -O -L https://vstsagentpackage.azureedge.net/agent/${AGENT_VERSION}/vsts-agent-linux-x64-${AGENT_VERSION}.tar.gz \
+    && curl -O -L https://download.agent.dev.azure.com/agent/${AGENT_VERSION}/vsts-agent-linux-x64-${AGENT_VERSION}.tar.gz \
     && tar xzf /home/vscode/azure-pipelines/vsts-agent-linux-x64-${AGENT_VERSION}.tar.gz \
     && /home/vscode/azure-pipelines/bin/installdependencies.sh
 
