@@ -31,10 +31,11 @@
 	//		"X": "y"
 	//	}
 	//},
-	"features": {
-		"ghcr.io/devcontainers/features/common-utils:2": {},
-		"ghcr.io/lukewiwa/features/shellcheck:0": {},
-		"ghcr.io/devcontainers/features/github-cli:1": {},
-		"ghcr.io/devcontainers/features/terraform:1": {}
-	}
+    "features": {
+        "terraform": "latest",
+        "azure-cli": "latest",
+        "git-lfs": "latest",
+        "github-cli": "latest",
+        "powershell": "latest"
+    }
 }
