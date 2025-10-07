@@ -32,10 +32,10 @@
 	//	}
 	//},
     "features": {
-        "terraform": "latest",
-        "azure-cli": "latest",
-        "git-lfs": "latest",
-        "github-cli": "latest",
-        "powershell": "latest"
+        "ghcr.io/devcontainers/features/terraform:1": "latest",
+        "ghcr.io/devcontainers/features/azure-cli:1": "latest",
+        "ghcr.io/devcontainers/features/git-lfs:1": "latest",
+        "ghcr.io/devcontainers/features/github-cli:1": "latest",
+        "ghcr.io/devcontainers/features/powershell:1": "latest"
     }
 }
