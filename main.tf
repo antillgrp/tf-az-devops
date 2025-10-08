@@ -223,7 +223,7 @@ output "function_app_url" {
 
 output "http_trigger_ps_fn_url" {
   description = "Function App test URL"
-  value       = "invocation_url: ${azurerm_function_app_function.http_trigger_ps_fn.invocation_url}?code=${nonsensitive(data.azurerm_function_app_host_keys.host_keys.default_function_key)}"
+  value       = "invocation_url: ${azurerm_function_app_function.http_trigger_ps_fn.invocation_url}?code=${nonsensitive(data.azurerm_function_app_host_keys.host_keys.default_function_key)}  "
 }
 
 
