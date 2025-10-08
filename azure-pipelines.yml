@@ -17,6 +17,7 @@ stages:
         echo "##[section]Starting: Terraform Init"
         terraform init -upgrade
         echo "##[section]Starting: Terraform Plan"
+        mkdir -p ./terraform
         terraform plan -out='./terraform/plan.tfplan' -input=false
         cat ./terraform/plan.tfplan
       displayName: 'Run Terraform Init and Plan'
