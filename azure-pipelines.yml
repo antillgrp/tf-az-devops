@@ -19,7 +19,7 @@ stages:
         echo "##[section]Starting: Terraform Plan"
         mkdir -p ./terraform
         terraform plan -out='./terraform/plan.tfplan' -input=false
-        cat ./terraform/plan.tfplan
+        #terraform show ./terraform/plan.tfplan
       displayName: 'Run Terraform Init and Plan'
 
 - stage: Apply
