@@ -82,9 +82,13 @@ locals {
 
 data "azurerm_client_config" "current" {}
 
-resource "azurerm_resource_group" "main" {
-  name     = local.resource_group_name
-  location = var.location
+# resource "azurerm_resource_group" "main" {
+#   name     = local.resource_group_name
+#   location = var.location
+# }
+
+data "azurerm_resource_group" "main" {
+  name = local.resource_group_name
 }
 
 # ====================================================================================================
@@ -93,8 +97,8 @@ resource "azurerm_resource_group" "main" {
 
 resource "azurerm_service_plan" "function_plan" {
   name                = local.app_service_plan_name
-  resource_group_name = azurerm_resource_group.main.name
-  location            = azurerm_resource_group.main.location
+  resource_group_name = data.azurerm_resource_group.main.name
+  location            = data.azurerm_resource_group.main.location
   os_type             = "Linux"  # Change to "Windows" if needed
   sku_name            = "Y1"     # Consumption plan
   
@@ -110,8 +114,8 @@ resource "azurerm_service_plan" "function_plan" {
 
 resource "azurerm_storage_account" "function_storage" {
   name                     = local.storage_account_name
-  resource_group_name      = azurerm_resource_group.main.name
-  location                 = azurerm_resource_group.main.location
+  resource_group_name      = data.azurerm_resource_group.main.name
+  location                 = data.azurerm_resource_group.main.location
   account_tier             = "Standard"
   account_replication_type = "RAGRS"
   account_kind             = "StorageV2"
@@ -156,8 +160,8 @@ resource "azurerm_storage_account" "function_storage" {
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_function_app
 resource "azurerm_linux_function_app" "function_app" {
   name                = local.function_app_name
-  resource_group_name = azurerm_resource_group.main.name
-  location            = azurerm_resource_group.main.location
+  resource_group_name = data.azurerm_resource_group.main.name
+  location            = data.azurerm_resource_group.main.location
   service_plan_id     = azurerm_service_plan.function_plan.id
   
   storage_account_name = azurerm_storage_account.function_storage.name
@@ -235,7 +239,7 @@ resource "azurerm_function_app_function" "http_trigger_ps_fn" {
 
 output "resource_group_name" {
   description = "Resource Group name"
-  value       = azurerm_resource_group.main.name
+  value       = data.azurerm_resource_group.main.name
 }
 
 output "storage_account_name" {
