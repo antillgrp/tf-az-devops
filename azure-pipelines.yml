@@ -39,6 +39,7 @@ stages:
                 echo "##[section]Starting: Terraform Init"
                 terraform init -upgrade
                 echo "##[section]Starting: Terraform Plan"
+                mkdir -p ./terraform
                 terraform plan -out='./terraform/plan.tfplan' -input=false
                 terraform apply -auto-approve './terraform/plan.tfplan'
               displayName: 'Run Terraform Init, Plan and Apply'
