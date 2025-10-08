@@ -21,6 +21,9 @@ USER_NAME_LABEL=$( (git config --get user.name) | sed -e 's/ //g')
 export VSO_AGENT_IGNORE=ADO_PAT,GH_TOKEN,GITHUB_CODESPACE_TOKEN,GITHUB_TOKEN
 
 [ -f /home/vscode/azure-pipelines/config.sh ]        && 
+/home/vscode/azure-pipelines/config.sh remove --auth PAT --token "${ADO_PAT}"
+
+[ -f /home/vscode/azure-pipelines/config.sh ]        && 
 /home/vscode/azure-pipelines/config.sh --unattended \
 --agent "${AGENT_NAME}" \
 --url "${ADO_URL}" \
