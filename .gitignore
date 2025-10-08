@@ -4,7 +4,7 @@ bin
 obj
 .terraform
 *.lock.*
-*.tfstate*
+#*.tfstate*
 .vscode
 
 # Azurite artifacts
