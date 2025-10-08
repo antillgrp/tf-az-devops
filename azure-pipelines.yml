@@ -6,6 +6,7 @@
 trigger:
 - main
 
+stages:
 - stage: Plan
   jobs:
   - job: terraform_plan
@@ -26,6 +27,8 @@ trigger:
     condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
     displayName: "[APPLY] ${{ variables['Build.DefinitionName'] }}"
     pool: 'Default'
+    environment:
+      name: 'dev'
     strategy:
         runOnce:
           deploy:
