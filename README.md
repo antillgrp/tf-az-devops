@@ -5,7 +5,7 @@
 # Features 
 ---
 ## 1. Implemented a github dev container that acts as azure devops agent 
-#### 1.1 **./devcontainer/Dockerfile** --> build the docker image for the devcontainer
+#### 1.1 *./devcontainer/Dockerfile* --> build the docker image for the devcontainer
 #### 1.2 **./devcontainer/docker-compose.yml** --> devcontainer docker stack ( core image, networking, etc.)
 #### 1.3 **./devcontainer/devcontainer.json** --> devcontainer configuration
 #### 1.3 **./devcontainer/scripts/start.sh** --> azdo agent service management
