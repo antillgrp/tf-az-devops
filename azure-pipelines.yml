@@ -25,7 +25,7 @@ stages:
 - stage: Apply
   jobs:
   - deployment: terraform_apply
-    condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+    condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
     displayName: "[APPLY] ${{ variables['Build.DefinitionName'] }}"
     pool: 'Default'
     environment:
