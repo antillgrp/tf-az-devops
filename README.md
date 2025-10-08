@@ -6,9 +6,9 @@
 ---
 ## 1. Implemented a github dev container that acts as azure devops agent 
 #### 1.1 *./devcontainer/Dockerfile* --> build the docker image for the devcontainer
-#### 1.2 **./devcontainer/docker-compose.yml** --> devcontainer docker stack ( core image, networking, etc.)
-#### 1.3 **./devcontainer/devcontainer.json** --> devcontainer configuration
-#### 1.3 **./devcontainer/scripts/start.sh** --> azdo agent service management
+#### 1.2 *./devcontainer/docker-compose.yml* --> devcontainer docker stack ( core image, networking, etc.)
+#### 1.3 *./devcontainer/devcontainer.json* --> devcontainer configuration
+#### 1.3 *./devcontainer/scripts/start.sh* --> azdo agent service management
 ---
 ![devops-agent1](media/devops-agent1.png)
 
@@ -18,7 +18,7 @@
 
 ---
 ## 2. Implemented IAC with terraform to deploy all the required infrastructure
-#### 2.1 **./main.tf** --> terraform infra solution
+#### 2.1 *./main.tf* --> terraform infra solution
 
 ```
 ...
@@ -67,7 +67,7 @@ resource "azurerm_function_app_function" "http_trigger_ps_fn" {
 ---
 
 ## 3. Implemented azdo devops build definition (pipeline)
-#### 3.1 **./azure-pipelines.yml** --> pipeline definition that triggers when merging with main branch
+#### 3.1 *./azure-pipelines.yml* --> pipeline definition that triggers when merging with main branch
 ---
 
 ![pipeline1](media/pipeline1.png)
@@ -79,7 +79,7 @@ resource "azurerm_function_app_function" "http_trigger_ps_fn" {
 ---
 
 ## 4. Implemented the powershell azure function that connects to a public api to collect data
-#### 4.1 **./run.ps1** --> function definition that is uploaded by IAC
+#### 4.1 *./run.ps1* --> function definition that is uploaded by IAC
 ---
 
 ![function1](media/function1.png)
