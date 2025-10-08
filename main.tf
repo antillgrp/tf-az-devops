@@ -122,33 +122,6 @@ resource "azurerm_storage_account" "function_storage" {
   allow_nested_items_to_be_public = true # false
 }
 
-# # Storage container for function code
-# resource "azurerm_storage_container" "function_code" {
-#   name                  = "packages"
-#   storage_account_name  = azurerm_storage_account.function_storage.name
-#   #storage_account_id    = azurerm_storage_account.function_storage.id
-#   #container_access_type = "container" # "private"
-# }
-
-# # Generate SAS URL for the function code blob
-# data "azurerm_storage_account_blob_container_sas" "function_code" {
-#   connection_string = azurerm_storage_account.function_storage.primary_connection_string
-#   container_name    = azurerm_storage_container.function_code.name
-#   https_only        = true
-
-#   start  = "2025-01-01T00:00:00Z"
-#   expiry = "2026-12-31T23:59:59Z"
-
-#   permissions {
-#     read   = true
-#     add    = false
-#     create = false
-#     write  = false
-#     delete = false
-#     list   = true
-#   }
-# }
-
 # ====================================================================================================
 # FUNCTION APP: stores multiple functions 
 # ====================================================================================================
