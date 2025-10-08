@@ -17,18 +17,25 @@ trigger:
         terraform init -upgrade
         echo "##[section]Starting: Terraform Plan"
         terraform plan -out='./terraform/plan.tfplan' -input=false
+        cat ./terraform/plan.tfplan
       displayName: 'Run Terraform Init and Plan'
 
 - stage: Apply
   jobs:
-  - job: terraform_plan
-    displayName: "[PLAN] ${{ variables['Build.DefinitionName'] }}"
+  - deployment: terraform_apply
+    condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+    displayName: "[APPLY] ${{ variables['Build.DefinitionName'] }}"
     pool: 'Default'
-    steps:
-    - bash: |
-        echo "##[section]Starting: Terraform Init"
-        terraform init -upgrade
-        echo "##[section]Starting: Terraform Plan"
-        terraform plan -out='./terraform/plan.tfplan' -input=false
-        terraform apply -auto-approve './terraform/plan.tfplan'
-      displayName: 'Run Terraform Init and Plan'
+    strategy:
+        runOnce:
+          deploy:
+            steps:
+            - checkout: self
+            - bash: |
+                echo "##[section]Starting: Terraform Init"
+                terraform init -upgrade
+                echo "##[section]Starting: Terraform Plan"
+                terraform plan -out='./terraform/plan.tfplan' -input=false
+                terraform apply -auto-approve './terraform/plan.tfplan'
+              displayName: 'Run Terraform Init, Plan and Apply'
+     
