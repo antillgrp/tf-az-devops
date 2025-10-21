@@ -5,22 +5,10 @@ FROM mcr.microsoft.com/vscode/devcontainers/base:bullseye
 ARG USERNAME=vscode
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
-COPY scripts/*.sh /tmp/scripts/
 
-# cd into the user directory, download and unzip the Azure DevOps agent
-RUN cd /home/vscode && mkdir azure-pipelines && cd azure-pipelines
+RUN mkdir -p /home/vscode/azure-pipelines
 
-# input ADO agent version argument
-#ARG AGENT_VERSION=2.218.1
-
-# download, extract and install dependencies for Azure DevOps Pipelines Agent
-#RUN cd /home/vscode/azure-pipelines \
-#    && curl -O -L https://download.agent.dev.azure.com/agent/${AGENT_VERSION}/vsts-agent-linux-x64-${AGENT_VERSION}.tar.gz \
-#    && tar xzf /home/vscode/azure-pipelines/vsts-agent-linux-x64-${AGENT_VERSION}.tar.gz \
-#    && /home/vscode/azure-pipelines/bin/installdependencies.sh
-
-# copy over the start.sh script
-COPY scripts/start.sh scripts/.env* /home/vscode/azure-pipelines
+COPY scripts/* /home/vscode/azure-pipelines/
 
 # Apply ownership of home folder
 RUN chown -R vscode ~vscode

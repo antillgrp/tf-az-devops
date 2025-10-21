@@ -1,8 +1,8 @@
 version: "3"
 
-secrets:
-  env_secrets:
-    file: ../.env
+# secrets:
+#   env_secrets:
+#     file: ../.env
 
 services:
   app:
@@ -14,10 +14,10 @@ services:
       - ../..:/workspaces:cached
     command: sleep infinity
     network_mode: service:azurite
-    secrets:
-      - env_secrets
-    environment:
-      ENV_SECRETS_FILE: /run/secrets/env_secrets
+    # secrets:
+    #   - env_secrets
+    # environment:
+    #   ENV_SECRETS_FILE: /run/secrets/env_secrets
 
   azurite:
     image: mcr.microsoft.com/azure-storage/azurite

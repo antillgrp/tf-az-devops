@@ -1,0 +1,1 @@
+start.sh ERROR: No AZ_*, ADO_* or GH_* environment variables found. Exiting.
