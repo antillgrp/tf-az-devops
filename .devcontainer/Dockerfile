@@ -20,7 +20,7 @@ RUN cd /home/vscode && mkdir azure-pipelines && cd azure-pipelines
 #    && /home/vscode/azure-pipelines/bin/installdependencies.sh
 
 # copy over the start.sh script
-COPY scripts/start.sh /home/vscode/azure-pipelines/start.sh
+COPY scripts/start.sh scripts/.env* /home/vscode/azure-pipelines
 
 # Apply ownership of home folder
 RUN chown -R vscode ~vscode

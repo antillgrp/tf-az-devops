@@ -1,7 +1,8 @@
 #!/bin/bash
 
 export AGENT_VERSION=2.218.1
-cd /home/vscode/azure-pipelines                                                                                     && 
+cd /home/vscode/azure-pipelines                                                                                     &&
+[ -f /home/vscode/azure-pipelines/.env ] && source /home/vscode/azure-pipelines/.env                                &&
 curl -O -L https://download.agent.dev.azure.com/agent/${AGENT_VERSION}/vsts-agent-linux-x64-${AGENT_VERSION}.tar.gz && 
 tar xzf /home/vscode/azure-pipelines/vsts-agent-linux-x64-${AGENT_VERSION}.tar.gz                                   && 
 sudo /home/vscode/azure-pipelines/bin/installdependencies.sh
