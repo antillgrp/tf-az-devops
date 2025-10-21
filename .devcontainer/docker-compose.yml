@@ -1,3 +1,9 @@
+version: '3.1'
+
+secrets:
+  ADO_ORG:
+    external: true
+    #file: ../../../ADO_ORG.txt
 services:
   app:
     build:
@@ -9,12 +15,8 @@ services:
     command: sleep infinity
     network_mode: service:azurite
     environment:
-      - ADO_ORG=/run/secrets/ADO_ORG
+      ADO_ORG=/run/secrets/ADO_ORG
 
   azurite:
     image: mcr.microsoft.com/azure-storage/azurite
     restart: unless-stopped
-
-secrets:
-  ADO_ORG:
-    file: ../../../ADO_ORG.txt
