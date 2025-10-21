@@ -7,6 +7,9 @@ obj
 #*.tfstate*
 .vscode
 
+# secrets
+.env
+
 # Azurite artifacts
 __blobstorage__
 __queuestorage__

@@ -1,9 +1,9 @@
-version: '3.1'
+version: "3"
 
 secrets:
-  ADO_ORG:
-    external: true
-    #file: ../../../ADO_ORG.txt
+  env_secrets:
+    file: ../.env
+
 services:
   app:
     build:
@@ -14,8 +14,10 @@ services:
       - ../..:/workspaces:cached
     command: sleep infinity
     network_mode: service:azurite
+    secrets:
+      - env_secrets
     environment:
-      ADO_ORG=/run/secrets/ADO_ORG
+      ENV_SECRETS_FILE: /run/secrets/env_secrets
 
   azurite:
     image: mcr.microsoft.com/azure-storage/azurite
