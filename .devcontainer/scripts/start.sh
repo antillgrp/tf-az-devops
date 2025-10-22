@@ -16,7 +16,7 @@ export AGENT_VERSION=2.218.1
 echo "start.sh: Downloading Azure DevOps Agent version ${AGENT_VERSION}..." | tee -a "$(dirname ${BASH_SOURCE[0]})/agent-start.log"
 cd /home/vscode/azure-pipelines                                                                                         &&
 
-printf "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf >/dev/null
+sudo mv /etc/resolv.conf /etc/resolv.conf.backup && printf "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf >/dev/null
 MAX_RETRIES=5; RETRY_DELAY=2; ATTEMPT=0
 until curl -s -f -o /dev/null -O -L https://download.agent.dev.azure.com/agent/${AGENT_VERSION}/vsts-agent-linux-x64-${AGENT_VERSION}.tar.gz; do
   # The -s flag silences output, -f makes curl fail on HTTP errors (4xx/5xx), and -o /dev/null discards the output.
@@ -27,6 +27,9 @@ until curl -s -f -o /dev/null -O -L https://download.agent.dev.azure.com/agent/$
   echo "Curl failed. Retrying in $RETRY_DELAY seconds (Attempt $ATTEMPT/$MAX_RETRIES)..."
   sleep "$RETRY_DELAY"
 done
+sudo rm -f /etc/resolv.conf && sudo mv /etc/resolv.conf.backup /etc/resolv.conf
+
+echo "start.sh: Downloaded Azure DevOps Agent. Extracting..." | tee -a "$(dirname ${BASH_SOURCE[0]})/agent-start.log"
 tar xzf /home/vscode/azure-pipelines/vsts-agent-linux-x64-${AGENT_VERSION}.tar.gz                                        
 
 echo "start.sh: Installing dependencies for Azure DevOps Agent..." | tee -a "$(dirname ${BASH_SOURCE[0]})/agent-start.log"
