@@ -16,9 +16,10 @@ export AGENT_VERSION=2.218.1
 echo "start.sh: Downloading Azure DevOps Agent version ${AGENT_VERSION}..." | tee -a "$(dirname ${BASH_SOURCE[0]})/agent-start.log"
 cd /home/vscode/azure-pipelines                                                                                         &&
 
-sudo mv /etc/resolv.conf /etc/resolv.conf.backup && printf "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf >/dev/null
+sudo cat /etc/resolv.conf | tee /home/vscode/resolv.conf.backup &>/dev/null && 
+printf "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf >/dev/null
 MAX_RETRIES=5; RETRY_DELAY=2; ATTEMPT=0
-until curl -s -f -o /dev/null -O -L https://download.agent.dev.azure.com/agent/${AGENT_VERSION}/vsts-agent-linux-x64-${AGENT_VERSION}.tar.gz; do
+until curl -s -f -O -L https://download.agent.dev.azure.com/agent/${AGENT_VERSION}/vsts-agent-linux-x64-${AGENT_VERSION}.tar.gz; do
   # The -s flag silences output, -f makes curl fail on HTTP errors (4xx/5xx), and -o /dev/null discards the output.
   ATTEMPT=$((ATTEMPT + 1)) && if [ $ATTEMPT -ge $MAX_RETRIES ]; then
     echo "Curl failed after $MAX_RETRIES attempts. Exiting."
@@ -27,7 +28,7 @@ until curl -s -f -o /dev/null -O -L https://download.agent.dev.azure.com/agent/$
   echo "Curl failed. Retrying in $RETRY_DELAY seconds (Attempt $ATTEMPT/$MAX_RETRIES)..."
   sleep "$RETRY_DELAY"
 done
-sudo rm -f /etc/resolv.conf && sudo mv /etc/resolv.conf.backup /etc/resolv.conf
+cat /home/vscode/resolv.conf.backup | sudo tee /etc/resolv.conf &> /dev/null
 
 echo "start.sh: Downloaded Azure DevOps Agent. Extracting..." | tee -a "$(dirname ${BASH_SOURCE[0]})/agent-start.log"
 tar xzf /home/vscode/azure-pipelines/vsts-agent-linux-x64-${AGENT_VERSION}.tar.gz                                        
@@ -53,7 +54,7 @@ echo "start.sh: Removing any existing configuration for Azure DevOps Agent '${AG
 
 echo "start.sh: Setting up Azure DevOps Agent '${AGENT_NAME}'..." | tee -a "$(dirname ${BASH_SOURCE[0]})/agent-start.log"
 [ -f /home/vscode/azure-pipelines/config.sh ]        && 
-/home/vscode/azure-pipelines/config.sh --unattended \
+/home/vscode/azure-pipelines/config.sh --unattended --replace \
 --agent "${AGENT_NAME}" \
 --url "${ADO_URL}" \
 --auth PAT \
@@ -64,3 +65,19 @@ echo "start.sh: Setting up Azure DevOps Agent '${AGENT_NAME}'..." | tee -a "$(di
 echo "start.sh: Starting Azure DevOps Agent '${AGENT_NAME}'..." | tee -a "$(dirname ${BASH_SOURCE[0]})/agent-start.log"
 [ -f /home/vscode/azure-pipelines/run.sh ] && 
 /home/vscode/azure-pipelines/run.sh >> "$(dirname ${BASH_SOURCE[0]})/agent-start.log" &
+
+# KUBECTL INSTALL
+echo "start.sh: Installing kubectl..."
+curl -s -f -O -L "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+# To download a specific version, replace the $(curl -L -s https://dl.k8s.io/release/stable.txt) portion of the command with the specific version.
+####
+curl -s -f -O -L "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
+####
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl && kubectl version --client 
+
+### K9s ### 
+curl -sS https://webinstall.dev/k9s | bash &>/dev/null && source ~/.config/envman/PATH.env && k9s version 
+
+echo "start.sh: Logging into Azure using Service Principal..."
+az login --service-principal --username $AZURE_CLIENT_ID --password $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
