@@ -79,5 +79,10 @@ sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl && kubectl v
 ### K9s ### 
 curl -sS https://webinstall.dev/k9s | bash &>/dev/null && source ~/.config/envman/PATH.env && k9s version 
 
+### Install HELM ####
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+chmod +x get_helm.sh
+./get_helm.sh
+
 echo "start.sh: Logging into Azure using Service Principal..."
 az login --service-principal --username $AZURE_CLIENT_ID --password $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID

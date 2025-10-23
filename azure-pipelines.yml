@@ -11,7 +11,7 @@ stages:
   jobs:
   - job: terraform_plan
     displayName: "[PLAN] ${{ variables['Build.DefinitionName'] }}"
-    pool: 'Default'
+    pool: 'devcontainers'
     steps:
     - bash: |
         echo "##[section]Starting: Terraform Init"
@@ -27,7 +27,7 @@ stages:
   - deployment: terraform_apply
     condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
     displayName: "[APPLY] ${{ variables['Build.DefinitionName'] }}"
-    pool: 'Default'
+    pool: 'devcontainers'
     environment:
       name: 'dev'
     strategy:
